@@ -1,0 +1,14 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+*.csproj
+*.sln
+.vs/
+
+# Piper text-to-speech runtime and voices (about 440 MB): download separately, see README
+PiperVoices/
+*.log
