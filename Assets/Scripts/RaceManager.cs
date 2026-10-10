@@ -1116,6 +1116,7 @@ namespace ApexDrive
             Voice.Update();
             NetTick();
             RadioTick();
+            if (cam != null) cam.nearClipPlane = state == State.Menu ? 4f : 0.25f;          // a nearer plane makes distant surfaces flicker against each other
             if (state == State.Menu)
             {
                 float t = Time.time * 0.08f;

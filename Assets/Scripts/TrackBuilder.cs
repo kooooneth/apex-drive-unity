@@ -124,7 +124,9 @@ namespace ApexDrive
             float lowest = 0f;
             if (m.def.elevation != null) for (int i = 0; i < TrackModel.N; i++) lowest = Mathf.Min(lowest, m.ElevationAt((float)i / TrackModel.N * m.roadLength));
             float level = m.def.elevation != null ? Mathf.Min(0f, lowest - 1.2f) - 0.08f : -0.02f;      // the flat world around the circuit
-            float baseY = level - 0.03f;
+            // on a flat circuit the ground sits well under the road: a few centimetres is not enough, the road and the ground fight over
+            // the same pixels (they flash) when seen from far away, because the depth buffer cannot tell them apart
+            float baseY = m.def.elevation != null ? level - 0.03f : -0.12f;
             outer.Quad(new Vector3(-3000, baseY, -3000), new Vector3(3000, baseY, -3000), new Vector3(3000, baseY, 3000), new Vector3(-3000, baseY, 3000), Vector3.up);
             outer.Build("Ground", parent, mat);
             if (m.def.elevation == null) return;
