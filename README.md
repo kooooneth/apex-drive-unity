@@ -142,6 +142,9 @@ Tyre temperature windows + slip (understeer / trail-brake oversteer), brake temp
 ## Voices (Piper)
 The spoken radio uses Piper text-to-speech, which is not in this repository (about 440 MB). Put the Piper program in `PiperVoices/piper/` and the voice files (`en_GB-alan-medium`, `en_US-ryan-high`, `en_GB-cori-high`, with their `.onnx.json`) in `PiperVoices/voices/`, from https://github.com/rhasspy/piper. Without them the game falls back to the English Windows voices.
 
+## Download (Windows)
+Get the app: https://github.com/kooooneth/apex-drive-unity/releases/latest/download/ApexDrive-Windows.zip (27 MB). Unzip it and run `ApexDrive.exe`. Windows may warn about an unknown publisher: More info, then Run anyway. To rebuild it, use the menu Apex Drive > Build Windows (or `-executeMethod ApexDrive.Editor.WebGLBuilder.BuildWindows -buildTarget Win64`), zip the `Build/Windows` folder and attach it to a new release.
+
 ## Play in the browser
 The full game runs as WebGL at https://kooooneth.github.io/apex-drive-unity/unity/ (computer and keyboard, recent Chrome, Edge or Firefox). The browser build adjusts its shadows to your graphics card; the voices use the browser's speech synthesis; online multiplayer is desktop only.
 

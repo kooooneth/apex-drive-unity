@@ -9,7 +9,7 @@ using UnityEngine.Rendering;
 namespace ApexDrive.Editor
 {
     /// <summary>
-    /// Builds the browser (WebGL) version. Run from the menu (Apex Drive > Build WebGL) or from the command line:
+    /// Builds the browser (WebGL) and the Windows versions. Run from the menu (Apex Drive > Build WebGL) or from the command line:
     /// Unity -batchmode -quit -projectPath . -buildTarget WebGL -executeMethod ApexDrive.Editor.WebGLBuilder.Build
     /// The game builds its whole world from code, so the scene is empty: Bootstrap creates everything after the scene loads.
     /// </summary>
@@ -27,7 +27,8 @@ namespace ApexDrive.Editor
             if (Application.isBatchMode) EditorApplication.Exit(code);
         }
 
-        static bool DoBuild()
+        /// <summary>The setup every build needs: the empty boot scene with the shader variants kept, and the shaders the code looks up by name.</summary>
+        static void Prepare()
         {
             // the scene is empty: the game builds its world from code after it loads (the colliders of CreatePrimitive are not used in the browser, see PrimitiveMeshes)
             Directory.CreateDirectory("Assets/Scenes");
@@ -69,6 +70,12 @@ namespace ApexDrive.Editor
             PlayerSettings.companyName = "kooooneth";
             PlayerSettings.productName = "Apex Drive";
             PlayerSettings.bundleVersion = "1.0." + System.DateTime.UtcNow.ToString("yyyyMMddHHmm");
+            PlayerSettings.runInBackground = true;
+        }
+
+        static bool DoBuild()
+        {
+            Prepare();
             var target = NamedBuildTarget.WebGL;
             PlayerSettings.SetScriptingBackend(target, ScriptingImplementation.IL2CPP);
             PlayerSettings.SetManagedStrippingLevel(target, ManagedStrippingLevel.Low);
@@ -92,6 +99,38 @@ namespace ApexDrive.Editor
             };
             BuildReport report = BuildPipeline.BuildPlayer(options);
             Debug.Log("WebGL build result: " + report.summary.result + ", " + (report.summary.totalSize / (1024 * 1024)) + " MB, " + report.summary.totalTime);
+            return report.summary.result == BuildResult.Succeeded;
+        }
+
+        [MenuItem("Apex Drive/Build Windows")]
+        public static void BuildWindows()
+        {
+            int code = 1;
+            try { code = DoBuildWindows() ? 0 : 1; }
+            catch (System.Exception e) { Debug.LogError("Windows build failed: " + e); }
+            if (Application.isBatchMode) EditorApplication.Exit(code);
+        }
+
+        static bool DoBuildWindows()
+        {
+            Prepare();
+            var target = NamedBuildTarget.Standalone;
+            PlayerSettings.SetScriptingBackend(target, ScriptingImplementation.Mono2x);
+            PlayerSettings.SetManagedStrippingLevel(target, ManagedStrippingLevel.Low);
+            PlayerSettings.stripEngineCode = false;                                    // CreatePrimitive adds colliders: keep the physics classes
+            PlayerSettings.fullScreenMode = FullScreenMode.Windowed;
+            PlayerSettings.defaultScreenWidth = 1600; PlayerSettings.defaultScreenHeight = 900;
+            PlayerSettings.resizableWindow = true;
+            var options = new BuildPlayerOptions
+            {
+                scenes = new[] { ScenePath },
+                locationPathName = "Build/Windows/ApexDrive.exe",
+                target = BuildTarget.StandaloneWindows64,
+                targetGroup = BuildTargetGroup.Standalone,
+                options = BuildOptions.None
+            };
+            BuildReport report = BuildPipeline.BuildPlayer(options);
+            Debug.Log("Windows build result: " + report.summary.result + ", " + (report.summary.totalSize / (1024 * 1024)) + " MB, " + report.summary.totalTime);
             return report.summary.result == BuildResult.Succeeded;
         }
 
