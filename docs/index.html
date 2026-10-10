@@ -11,6 +11,7 @@
 <style>
   :root{--bg:#0b0e14;--surface:#151b26;--surface-2:#1e2636;--border:#2b3446;--text:#eef1f7;--muted:#8b93a6;--accent:#ff4b2e;--accent2:#17d9c4}
   *{box-sizing:border-box}
+  [hidden]{display:none!important}
   body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 Inter,system-ui,sans-serif}
   main{max-width:960px;margin:0 auto;padding:48px 16px 64px}
   h1{font:700 clamp(40px,9vw,76px)/1 Rajdhani,sans-serif;text-transform:uppercase;letter-spacing:.02em;margin:0 0 14px}
@@ -33,6 +34,12 @@
   footer{margin-top:40px;font-size:13px;color:var(--muted)}
   footer a{color:var(--accent2)}
 </style>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#0b0e14">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
 </head>
 <body>
 <main>
@@ -40,6 +47,7 @@
   <p class="lead">Build the car, pick the driver and take the wheel yourself: cockpit view, no autopilot. Race circuits, run a career, pit for tyres and fight the weather. The full game now runs in your browser.</p>
   <div class="cta">
     <a class="btn primary" href="https://github.com/kooooneth/apex-drive-unity/releases/latest/download/ApexDrive-Windows.zip">Download for Windows</a>
+    <a class="btn" href="#" data-install hidden>Install app</a>
     <a class="btn" href="unity/">Play in the browser</a>
     <a class="btn" href="play/">Play the original</a>
     <a class="btn" href="https://github.com/kooooneth/apex-drive-unity">Source code</a>
@@ -76,5 +84,6 @@
 
   <footer>Source and instructions on <a href="https://github.com/kooooneth/apex-drive-unity">GitHub</a>.</footer>
 </main>
+<script src="install.js"></script>
 </body>
 </html>

@@ -18,11 +18,18 @@
     #fs:hover{opacity:1}
     #error{position:fixed;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:24px;background:#0b0e14;z-index:6}
   </style>
+  <link rel="manifest" href="../manifest.webmanifest">
+  <meta name="theme-color" content="#0b0e14">
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
 </head>
 <body>
   <canvas id="unity-canvas" tabindex="-1"></canvas>
   <div id="loading"><h1>Apex <span>Drive</span></h1><div id="bar"><div id="fill"></div></div><div id="pct">Loading... 0%</div></div>
   <div id="hint">Click the game first, then drive with W A S D. Press Esc for the pause menu.</div>
+  <button id="inst" data-install hidden style="position:fixed;right:96px;top:10px;z-index:4;font:600 12px system-ui,Arial;color:#0b0e14;background:#17d9c4;border:0;border-radius:6px;padding:6px 10px;cursor:pointer">Install app</button>
   <button id="fs">Fullscreen</button>
   <div id="error"><div><h2>This browser cannot run the game</h2><p>It needs WebGL 2. Try a recent Chrome, Edge or Firefox on a computer.</p></div></div>
   <script>
@@ -67,5 +74,6 @@
     };
     document.body.appendChild(script);
   </script>
+  <script src="../install.js"></script>
 </body>
 </html>
