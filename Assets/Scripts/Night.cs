@@ -55,7 +55,7 @@ namespace ApexDrive
                 var pm = Mats.Fade(new Color(1f, 0.93f, 0.75f), 0f);
                 Mats.SetTex(pm, soft);
                 f.poolMats.Add(pm);
-                var q = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                var q = PrimitiveMeshes.Create(PrimitiveType.Quad);
                 Object.Destroy(q.GetComponent<Collider>());
                 q.name = "lightPool";
                 q.transform.SetParent(root.transform, false);

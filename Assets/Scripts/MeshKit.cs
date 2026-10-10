@@ -147,7 +147,7 @@ namespace ApexDrive
     {
         public static GameObject Box(Transform parent, Vector3 localPos, Vector3 scale, Material mat, string name = "box")
         {
-            var g = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            var g = PrimitiveMeshes.Create(PrimitiveType.Cube);
             Object.Destroy(g.GetComponent<Collider>());
             g.name = name;
             g.transform.SetParent(parent, false);
@@ -159,7 +159,7 @@ namespace ApexDrive
 
         public static GameObject Cyl(Transform parent, Vector3 localPos, Vector3 scale, Quaternion rot, Material mat, string name = "cyl")
         {
-            var g = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            var g = PrimitiveMeshes.Create(PrimitiveType.Cylinder);
             Object.Destroy(g.GetComponent<Collider>());
             g.name = name;
             g.transform.SetParent(parent, false);
@@ -172,7 +172,7 @@ namespace ApexDrive
 
         public static GameObject Capsule(Transform parent, Vector3 localPos, Vector3 scale, Quaternion rot, Material mat, string name = "capsule")
         {
-            var g = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            var g = PrimitiveMeshes.Create(PrimitiveType.Capsule);
             Object.Destroy(g.GetComponent<Collider>());
             g.name = name;
             g.transform.SetParent(parent, false);
@@ -185,7 +185,7 @@ namespace ApexDrive
 
         public static GameObject Sphere(Transform parent, Vector3 localPos, Vector3 scale, Material mat, string name = "sphere")
         {
-            var g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            var g = PrimitiveMeshes.Create(PrimitiveType.Sphere);
             Object.Destroy(g.GetComponent<Collider>());
             g.name = name;
             g.transform.SetParent(parent, false);

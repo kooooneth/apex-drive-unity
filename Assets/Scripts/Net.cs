@@ -181,6 +181,10 @@ namespace ApexDrive
         {
             Close();
             error = "";
+#if UNITY_WEBGL
+            error = "Online races need the desktop version: a browser cannot open game connections.";
+            return false;
+#endif
             try
             {
                 int off = 0;
@@ -207,6 +211,10 @@ namespace ApexDrive
         {
             Close();
             error = "";
+#if UNITY_WEBGL
+            error = "Online races need the desktop version: a browser cannot open game connections.";
+            return false;
+#endif
             IPAddress ip;
             if (!RoomCode.TryDecode(roomCode, out ip, out portOffset, out key)) { error = "That is not a room code. It has 8 letters and digits, like K7QM-4XWD."; return false; }
             try

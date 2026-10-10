@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apex Drive</title>
+  <style>
+    html,body{margin:0;height:100%;background:#0b0e14;overflow:hidden;font-family:system-ui,Segoe UI,Arial,sans-serif;color:#eef1f7}
+    #unity-canvas{position:fixed;inset:0;width:100%;height:100%;display:block;background:#0b0e14;outline:none}
+    #loading{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#0b0e14;z-index:5}
+    #loading h1{margin:0;font-size:clamp(36px,8vw,64px);letter-spacing:.04em;text-transform:uppercase}
+    #loading h1 span{color:#ff4b2e}
+    #bar{width:min(70vw,420px);height:8px;border-radius:4px;background:#1e2636;overflow:hidden}
+    #fill{height:100%;width:0;background:#17d9c4;transition:width .2s}
+    #pct{font-size:14px;color:#8b93a6}
+    #hint{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:4;font-size:12px;color:#c9d1e0;background:#000a;padding:6px 14px;border-radius:6px;pointer-events:none;transition:opacity .6s}
+    #fs{position:fixed;right:10px;top:10px;z-index:4;font:600 12px system-ui,Arial;color:#eef1f7;background:#1e2636cc;border:1px solid #2b3446;border-radius:6px;padding:6px 10px;cursor:pointer;opacity:.7}
+    #fs:hover{opacity:1}
+    #error{position:fixed;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:24px;background:#0b0e14;z-index:6}
+  </style>
+</head>
+<body>
+  <canvas id="unity-canvas" tabindex="-1"></canvas>
+  <div id="loading"><h1>Apex <span>Drive</span></h1><div id="bar"><div id="fill"></div></div><div id="pct">Loading... 0%</div></div>
+  <div id="hint">Click the game first, then drive with W A S D. Press Esc for the pause menu.</div>
+  <button id="fs">Fullscreen</button>
+  <div id="error"><div><h2>This browser cannot run the game</h2><p>It needs WebGL 2. Try a recent Chrome, Edge or Firefox on a computer.</p></div></div>
+  <script>
+    var canvas = document.getElementById("unity-canvas");
+    var loadingEl = document.getElementById("loading"), fill = document.getElementById("fill"), pct = document.getElementById("pct");
+    var hint = document.getElementById("hint");
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      document.getElementById("error").style.display = "flex";
+      document.getElementById("error").querySelector("p").textContent = "The game needs a keyboard, so it is made for a computer.";
+    }
+    var VER = "1.0.202610102313";          // changes with every build, so a browser never mixes old and new files
+    var config = {
+      dataUrl: "Build/WebGL.data?v=" + VER,
+      frameworkUrl: "Build/WebGL.framework.js?v=" + VER,
+      codeUrl: "Build/WebGL.wasm?v=" + VER,
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "kooooneth",
+      productName: "Apex Drive",
+      productVersion: "1.0.202610102313",
+      autoSyncPersistentDataPath: true,
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 1.25)
+    };
+    var script = document.createElement("script");
+    script.src = "Build/WebGL.loader.js?v=" + VER;
+    script.onload = function () {
+      createUnityInstance(canvas, config, function (p) {
+        fill.style.width = (p * 100) + "%";
+        pct.textContent = "Loading... " + Math.round(p * 100) + "%";
+      }).then(function (inst) {
+        window.apexInstance = inst;
+        var q = new URLSearchParams(location.search).get("q");
+        if (q !== null) inst.SendMessage("ApexDrive", "SetQuality", q);          // ?q=0..4 forces a graphics level
+        loadingEl.style.display = "none";
+        canvas.focus();
+        document.getElementById("fs").onclick = function () { inst.SetFullscreen(1); };
+        setTimeout(function () { hint.style.opacity = 0; }, 9000);
+        canvas.addEventListener("mousedown", function () { hint.style.opacity = 0; });
+      }).catch(function (m) {
+        document.getElementById("error").style.display = "flex";
+        document.getElementById("error").querySelector("p").textContent = String(m);
+      });
+    };
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>

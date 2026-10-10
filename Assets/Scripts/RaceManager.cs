@@ -2170,7 +2170,13 @@ namespace ApexDrive
             y += 50;
 
             GUI.backgroundColor = new Color(0.35f, 0.75f, 1f);
+#if UNITY_WEBGL
+            GUI.enabled = false;
+            GUI.Button(new Rect(x, y, 410, 32), "ONLINE MULTIPLAYER  -  desktop version only");
+            GUI.enabled = true;
+#else
             if (GUI.Button(new Rect(x, y, 410, 32), net.Active ? "ONLINE MULTIPLAYER  -  room " + net.code : "ONLINE MULTIPLAYER  -  host or join with a room code")) netPanel = true;
+#endif
             GUI.backgroundColor = Color.white;
             y += 42;
 
@@ -3131,7 +3137,9 @@ namespace ApexDrive
         static void Init()
         {
             if (Object.FindFirstObjectByType<RaceManager>() != null) return;
-            new GameObject("ApexDrive").AddComponent<RaceManager>();
+            var host = new GameObject("ApexDrive");
+            host.AddComponent<RaceManager>();
+            if (Application.platform == RuntimePlatform.WebGLPlayer) host.AddComponent<WebTuning>();       // the browser build tunes its graphics to the visitor's machine
         }
     }
 }

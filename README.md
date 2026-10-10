@@ -141,3 +141,12 @@ Tyre temperature windows + slip (understeer / trail-brake oversteer), brake temp
 
 ## Voices (Piper)
 The spoken radio uses Piper text-to-speech, which is not in this repository (about 440 MB). Put the Piper program in `PiperVoices/piper/` and the voice files (`en_GB-alan-medium`, `en_US-ryan-high`, `en_GB-cori-high`, with their `.onnx.json`) in `PiperVoices/voices/`, from https://github.com/rhasspy/piper. Without them the game falls back to the English Windows voices.
+
+## Play in the browser
+The full game runs as WebGL at https://kooooneth.github.io/apex-drive-unity/unity/ (computer and keyboard, recent Chrome, Edge or Firefox). The browser build adjusts its shadows to your graphics card; the voices use the browser's speech synthesis; online multiplayer is desktop only.
+
+To rebuild it after changing the scripts, close the project in the editor, then run (adjust the Unity path):
+
+    Unity.exe -batchmode -quit -projectPath . -buildTarget WebGL -executeMethod ApexDrive.Editor.WebGLBuilder.Build
+
+or use the menu Apex Drive > Build WebGL. The build lands in `Build/WebGL`; copy its contents to `docs/unity` and push. (`Assets/Editor/WebGLBuilder.cs` sets the options; `Assets/WebGLTemplates/Apex` is the page.) Primitives are made by `PrimitiveMeshes` so the browser build needs no physics colliders.

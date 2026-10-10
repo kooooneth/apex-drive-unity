@@ -86,7 +86,7 @@ namespace ApexDrive
 
         TextMesh Text(Transform parent, float x, float y, float z, string s, float size, Color c)
         {
-            if (font == null) font = Font.CreateDynamicFontFromOSFont(new[] { "Consolas", "Courier New", "Arial", "Liberation Mono" }, 64);
+            if (font == null) font = FontKit.Make(new[] { "Consolas", "Courier New", "Arial", "Liberation Mono" }, 64);
             var go = new GameObject("text");
             go.transform.SetParent(parent, false);
             go.transform.localPosition = P(x, y, z);

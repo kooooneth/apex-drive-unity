@@ -446,9 +446,15 @@ namespace ApexDrive
         public static void SetupShadows(Light sun)
         {
             QualitySettings.shadows = ShadowQuality.All;
+#if UNITY_WEBGL
+            QualitySettings.shadowResolution = ShadowResolution.High;          // a browser has far less graphics memory and speed
+            QualitySettings.shadowDistance = 220f;
+            QualitySettings.shadowCascades = 2;
+#else
             QualitySettings.shadowResolution = ShadowResolution.VeryHigh;
             QualitySettings.shadowDistance = 320f;
             QualitySettings.shadowCascades = 4;
+#endif
             QualitySettings.shadowProjection = ShadowProjection.StableFit;
             if (sun != null)
             {
@@ -482,7 +488,7 @@ namespace ApexDrive
                 contactMat = Mats.Fade(Color.black, 1f);
                 Mats.SetTex(contactMat, softTex);
             }
-            var q = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            var q = PrimitiveMeshes.Create(PrimitiveType.Quad);
             Object.Destroy(q.GetComponent<Collider>());
             q.name = "ContactShadow";
             q.transform.SetParent(car.transform, false);

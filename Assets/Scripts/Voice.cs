@@ -52,6 +52,9 @@ namespace ApexDrive
         static string logPath;
         static void Log(string s)
         {
+#if UNITY_WEBGL
+            return;
+#endif
             try
             {
                 if (logPath == null) logPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), Path.Combine("ApexDrive", "voice.log"));
@@ -66,6 +69,9 @@ namespace ApexDrive
         {
             if (started) return;
             started = true;
+#if UNITY_WEBGL
+            return;                                        // the browser's own speech is used (WebSpeech)
+#endif
             try { logPath = null; Directory.CreateDirectory(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "ApexDrive")); File.WriteAllText(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), Path.Combine("ApexDrive", "voice.log")), ""); } catch (System.Exception) { }
             Log("Voice.Start platform=" + Application.platform);
             if (Application.platform != RuntimePlatform.WindowsEditor && Application.platform != RuntimePlatform.WindowsPlayer) { failedAll = true; return; }
@@ -159,6 +165,7 @@ namespace ApexDrive
                 engines[i] = null;
             }
             StopSapi();
+            WebSpeech.Stop();
             started = false; generating = false; pendingText = null; readyClip = null;
         }
 
@@ -184,6 +191,10 @@ namespace ApexDrive
             if (text == lastSaid && Time.realtimeSinceStartup - lastSaidAt < 4f) return;      // do not repeat the same line
             lastSaid = text; lastSaidAt = Time.realtimeSinceStartup;
             Log("say v" + voice + ": " + text);
+#if UNITY_WEBGL
+            WebSpeech.Speak(text, voice);
+            return;
+#endif
             if (piperOk) { pendingText = text; pendingVoice = voice; pendingAt = Time.realtimeSinceStartup; }
             else SapiSay(voice, rate, text);
         }
@@ -197,6 +208,9 @@ namespace ApexDrive
         public static void Update()
         {
             if (!started) return;
+#if UNITY_WEBGL
+            return;
+#endif
             if (!piperOk) { SapiUpdate(); return; }
             float now = Time.realtimeSinceStartup;
 

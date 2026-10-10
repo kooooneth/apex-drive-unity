@@ -24,7 +24,7 @@ namespace ApexDrive
 
         public Hud()
         {
-            font = Font.CreateDynamicFontFromOSFont(new[] { "Arial", "Helvetica", "Segoe UI", "Liberation Sans" }, 16);
+            font = FontKit.Make(new[] { "Arial", "Helvetica", "Segoe UI", "Liberation Sans" }, 16);
             root = new GameObject("HUD");
             var canvas = root.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;

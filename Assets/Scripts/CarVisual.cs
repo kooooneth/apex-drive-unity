@@ -40,7 +40,7 @@ namespace ApexDrive
 
         static void Decal(Transform p, string text, Vector3 pos, float yawDeg, float size, Color c)
         {
-            if (font == null) font = Font.CreateDynamicFontFromOSFont(new[] { "Arial", "Helvetica", "Liberation Sans" }, 64);
+            if (font == null) font = FontKit.Make(new[] { "Arial", "Helvetica", "Liberation Sans" }, 64);
             var go = new GameObject("decal");
             go.transform.SetParent(p, false);
             go.transform.localPosition = pos;

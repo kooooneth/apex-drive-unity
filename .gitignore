@@ -12,3 +12,6 @@
 # Piper text-to-speech runtime and voices (about 440 MB): download separately, see README
 PiperVoices/
 *.log
+
+# the browser build that the website serves
+!docs/unity/Build/

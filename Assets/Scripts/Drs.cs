@@ -112,7 +112,7 @@ namespace ApexDrive
         {
             var root = new GameObject("DRS");
             root.transform.SetParent(parent, false);
-            if (font == null) font = Font.CreateDynamicFontFromOSFont(new[] { "Arial", "Helvetica", "Liberation Sans" }, 64);
+            if (font == null) font = FontKit.Make(new[] { "Arial", "Helvetica", "Liberation Sans" }, 64);
             Material board = Mats.Make(new Color(0.05f, 0.34f, 0.2f), 0.2f, 0f);
             Material post = Mats.Make(new Color(0.55f, 0.57f, 0.6f), 0.4f, 0.4f);
             Material white = Mats.Make(new Color(0.93f, 0.94f, 0.96f), 0.2f, 0f);
